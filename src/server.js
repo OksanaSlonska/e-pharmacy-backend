@@ -2,11 +2,13 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import 'dotenv/config';
+import { errors } from 'celebrate';
 import { connectMongoDB } from './db/connectMongoDB.js';
 
 import { logger } from './middleware/logger.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
+
 import suppliersRoutes from './routes/suppliersRoutes.js';
 import productsRoutes from './routes/productsRoutes.js';
 
@@ -18,10 +20,11 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
-app.use(suppliersRoutes);
-app.use(productsRoutes);
+app.use('/api', suppliersRoutes);
+app.use('/api', productsRoutes);
 
 app.use(notFoundHandler);
+app.use(errors());
 app.use(errorHandler);
 
 await connectMongoDB();

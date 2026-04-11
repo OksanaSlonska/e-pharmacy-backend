@@ -8,10 +8,10 @@ import {
 
 const router = Router();
 
-router.get('/api/products', getProdust);
-router.get('/api/products/:productsId', getProdust);
-router.post('/api/products', createProduct);
-router.delete('/api/products/:productsId', deleteProduct);
-router.put('/api/products/:productsId', updateProduct);
+router.get('/products', getProdust);
+router.get('/products/:productsId', getProdust);
+router.post('/products', createProduct);
+router.delete('/products/:productsId', deleteProduct);
+router.put('/products/:productsId', updateProduct);
 
 export default router;
