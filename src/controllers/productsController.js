@@ -1,10 +1,32 @@
 import createHttpError from 'http-errors';
 import { Product } from '../models/product.js';
 
-export const getProdust = async (req, res) => {
-  const product = await Product.find();
+export const getProducts = async (req, res) => {
+  const { name, category, page = 1, limit = 5 } = req.query;
+  const skip = (page - 1) * limit;
 
-  res.status(200).json(product);
+  const productsQuery = Product.find();
+
+  if (name) {
+    productsQuery.where('name').regex(new RegExp(name, 'i'));
+  }
+
+  if (category) {
+    productsQuery.where('category').equals(category);
+  }
+
+  const [totalProducts, products] = await Promise.all([
+    productsQuery.clone().countDocuments(),
+    productsQuery.sort({ createdAt: -1 }).skip(skip).limit(Number(limit)),
+  ]);
+
+  res.status(200).json({
+    products,
+    total: totalProducts,
+    page: Number(page),
+    perPage: Number(limit),
+    totalPages: Math.ceil(totalProducts / limit),
+  });
 };
 
 export const createProduct = async (req, res) => {
@@ -18,7 +40,7 @@ export const updateProduct = async (req, res) => {
     new: true,
   });
   if (!product) {
-    throw createHttpError(404, 'Supplier not found');
+    throw createHttpError(404, 'Product not found');
   }
   res.status(200).json(product);
 };

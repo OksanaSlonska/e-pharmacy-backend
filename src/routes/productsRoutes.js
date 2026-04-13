@@ -3,22 +3,23 @@ import { celebrate } from 'celebrate';
 import {
   createProduct,
   deleteProduct,
-  getProdust,
+  getProducts,
   updateProduct,
 } from '../controllers/productsController.js';
 import {
   createProductSchema,
+  getProdustsSchema,
   productIdParamSchema,
   updateProductSchema,
 } from '../validations/productsValidation.js';
 
 const router = Router();
 
-router.get('/products', getProdust);
+router.get('/products', celebrate(getProdustsSchema), getProducts);
 router.get(
   '/products/:productsId',
   celebrate(productIdParamSchema),
-  getProdust,
+  getProducts,
 );
 router.post('/products', celebrate(createProductSchema), createProduct);
 router.delete(
