@@ -2,6 +2,12 @@ import { Joi, Segments } from 'celebrate';
 import { SUPPLIER_STATUS } from '../constants/supplier-constants.js';
 import { objectIdValidator } from '../utils/objectIdValidator.js';
 
+export const supplierIdParamSchema = {
+  [Segments.PARAMS]: Joi.object({
+    supplierId: Joi.string().custom(objectIdValidator).required(),
+  }),
+};
+
 export const createSupplierSchema = {
   [Segments.BODY]: Joi.object({
     name: Joi.string().min(3).max(30).required(),
@@ -12,12 +18,6 @@ export const createSupplierSchema = {
     status: Joi.string()
       .valid(...SUPPLIER_STATUS)
       .required(),
-  }),
-};
-
-export const supplierIdParamSchema = {
-  [Segments.PARAMS]: Joi.object({
-    supplierId: Joi.string().custom(objectIdValidator).required(),
   }),
 };
 
