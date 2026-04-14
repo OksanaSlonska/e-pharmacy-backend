@@ -9,6 +9,7 @@ import { logger } from './middleware/logger.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
+import authRoutes from './routes/authRoutes.js';
 import suppliersRoutes from './routes/suppliersRoutes.js';
 import productsRoutes from './routes/productsRoutes.js';
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
+app.use('/api', authRoutes);
 app.use('/api', suppliersRoutes);
 app.use('/api', productsRoutes);
 

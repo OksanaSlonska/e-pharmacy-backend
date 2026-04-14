@@ -4,29 +4,30 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
-      trim: true,
+      default: 'Admin',
     },
     email: {
       type: String,
       required: true,
       unique: true,
-      match: [/^\w+([-.]?\w+)*@\w+([-.]?\w+)*(\.\w{2,3})+$/],
+      trim: true,
     },
     password: {
       type: String,
       required: true,
-      minlength: 6,
     },
     token: {
       type: String,
       default: null,
     },
   },
-  {
-    versionKey: false,
-    timestamps: true,
-  },
+  { versionKey: false, timestamps: true },
 );
 
-export const User = model('User', userSchema);
+userSchema.methods.toJSON = function () {
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
+};
+
+export const User = model('user', userSchema);
