@@ -12,8 +12,11 @@ import {
   productIdParamSchema,
   updateProductSchema,
 } from '../validations/productsValidation.js';
+import { authenticate } from '../middleware/authenticate.js';
 
 const router = Router();
+
+router.use('/products', authenticate);
 
 router.get('/products', celebrate(getProdustsSchema), getProducts);
 router.get(

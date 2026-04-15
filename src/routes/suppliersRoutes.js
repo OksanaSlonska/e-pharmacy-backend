@@ -12,8 +12,11 @@ import {
   getSupplierById,
   updateSupplier,
 } from '../controllers/suppliersController.js';
+import { authenticate } from '../middleware/authenticate.js';
 
 const router = Router();
+
+router.use('/suppliers', authenticate);
 
 router.get('/suppliers', getSupplier);
 router.get(

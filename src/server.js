@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import 'dotenv/config';
 import { errors } from 'celebrate';
 import { connectMongoDB } from './db/connectMongoDB.js';
+import cookieParser from 'cookie-parser';
 
 import { logger } from './middleware/logger.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
@@ -20,6 +21,7 @@ app.use(logger);
 app.use(express.json());
 app.use(cors());
 app.use(helmet());
+app.use(cookieParser());
 
 app.use('/api', authRoutes);
 app.use('/api', suppliersRoutes);
