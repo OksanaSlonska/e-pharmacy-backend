@@ -11,8 +11,11 @@ import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 import authRoutes from './routes/authRoutes.js';
+import dashboardRoutes from './routes/dashboardRoutes.js';
+import ordersRoutes from './routes/ordersRoutes.js';
 import suppliersRoutes from './routes/suppliersRoutes.js';
 import productsRoutes from './routes/productsRoutes.js';
+import customersRoutes from './routes/customersRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
@@ -24,8 +27,11 @@ app.use(helmet());
 app.use(cookieParser());
 
 app.use('/api', authRoutes);
+app.use('/api', dashboardRoutes);
+app.use('/api', ordersRoutes);
 app.use('/api', suppliersRoutes);
 app.use('/api', productsRoutes);
+app.use('/api', customersRoutes);
 
 app.use(notFoundHandler);
 app.use(errors());
