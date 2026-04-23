@@ -23,6 +23,9 @@ const userSchema = new Schema(
 userSchema.methods.toJSON = function () {
   const obj = this.toObject();
   delete obj.password;
+  if ('token' in obj) {
+    delete obj.token;
+  }
   return obj;
 };
 

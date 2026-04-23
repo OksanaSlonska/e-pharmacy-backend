@@ -14,15 +14,18 @@ export const registerUser = async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const newUser = await User.create({
+  const user = await User.create({
     email,
     password: hashedPassword,
   });
 
-  const newSession = await createSession(newUser._id);
+  const newSession = await createSession(user._id);
   setSessionCookies(res, newSession);
 
-  res.status(201).json(newUser);
+  res.status(201).json({
+    user,
+    token: newSession.accessToken,
+  });
 };
 
 export const loginUser = async (req, res) => {
@@ -42,7 +45,10 @@ export const loginUser = async (req, res) => {
   const newSession = await createSession(user._id);
   setSessionCookies(res, newSession);
 
-  res.status(200).json(user);
+  res.status(200).json({
+    user,
+    token: newSession.accessToken,
+  });
 };
 
 export const logoutUser = async (req, res) => {
@@ -90,6 +96,10 @@ export const refreshUserSession = async (req, res) => {
 };
 
 export const getUserInfo = async (req, res) => {
+  if (!req.user) {
+    throw createHttpError(401, 'User not found in request');
+  }
+
   const { name, email } = req.user;
   res.status(200).json({ name, email });
 };
