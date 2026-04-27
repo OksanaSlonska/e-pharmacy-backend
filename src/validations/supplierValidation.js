@@ -12,9 +12,9 @@ export const createSupplierSchema = {
   [Segments.BODY]: Joi.object({
     name: Joi.string().min(3).max(30).required(),
     address: Joi.string().required(),
-    company: Joi.string().required(),
-    deliveryDate: Joi.date().required(),
-    amount: Joi.number().min(0).required(),
+    suppliers: Joi.string().required(),
+    date: Joi.string().required(),
+    amount: Joi.string().required(),
     status: Joi.string()
       .valid(...SUPPLIER_STATUS)
       .required(),
