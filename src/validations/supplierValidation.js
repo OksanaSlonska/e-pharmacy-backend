@@ -24,11 +24,11 @@ export const createSupplierSchema = {
 export const updateSupplierSchema = {
   ...supplierIdParamSchema,
   [Segments.BODY]: Joi.object({
-    name: Joi.string().min(3).max(30),
+    name: Joi.string(),
     address: Joi.string(),
-    company: Joi.string(),
-    deliveryDate: Joi.date(),
-    amount: Joi.number().min(0),
+    suppliers: Joi.string(),
+    date: Joi.string(),
+    amount: Joi.string(),
     status: Joi.string().valid(...SUPPLIER_STATUS),
   }).min(1),
 };
