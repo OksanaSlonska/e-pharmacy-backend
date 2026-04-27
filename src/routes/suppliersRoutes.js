@@ -8,7 +8,7 @@ import {
 
 import {
   createSupplier,
-  getSupplier,
+  getSuppliers,
   getSupplierById,
   updateSupplier,
 } from '../controllers/suppliersController.js';
@@ -18,7 +18,7 @@ const router = Router();
 
 router.use('/suppliers', authenticate);
 
-router.get('/suppliers', getSupplier);
+router.get('/suppliers', getSuppliers);
 router.get(
   '/suppliers/:supplierId',
   celebrate(supplierIdParamSchema),

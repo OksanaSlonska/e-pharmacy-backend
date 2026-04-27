@@ -1,10 +1,29 @@
 import { Supplier } from '../models/supplier.js';
 import createHttpError from 'http-errors';
 
-export const getSupplier = async (req, res) => {
-  const suppliers = await Supplier.find();
+export const getSuppliers = async (req, res) => {
+  const { name, page = 1, limit = 5 } = req.query;
+  const skip = (page - 1) * limit;
 
-  res.status(200).json(suppliers);
+  // С
+  const suppliersQuery = Supplier.find();
+
+  if (name) {
+    suppliersQuery.where('name').regex(new RegExp(name, 'i'));
+  }
+
+  const [totalSuppliers, suppliers] = await Promise.all([
+    suppliersQuery.clone().countDocuments(),
+    suppliersQuery.sort({ createdAt: -1 }).skip(skip).limit(Number(limit)),
+  ]);
+
+  res.status(200).json({
+    suppliers,
+    total: totalSuppliers,
+    page: Number(page),
+    perPage: Number(limit),
+    totalPages: Math.ceil(totalSuppliers / limit),
+  });
 };
 
 export const getSupplierById = async (req, res) => {

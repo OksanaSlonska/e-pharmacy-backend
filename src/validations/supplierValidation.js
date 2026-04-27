@@ -32,3 +32,9 @@ export const updateSupplierSchema = {
     status: Joi.string().valid(...SUPPLIER_STATUS),
   }).min(1),
 };
+
+export const getSuppliersSchema = Joi.object({
+  page: Joi.number().min(1),
+  limit: Joi.number().min(1),
+  name: Joi.string().allow(''),
+});
