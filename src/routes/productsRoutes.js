@@ -24,14 +24,16 @@ router.get(
   celebrate(productIdParamSchema),
   getProducts,
 );
+
 router.post('/products', celebrate(createProductSchema), createProduct);
+
 router.delete(
-  '/products/:productsId',
+  '/products/:productId',
   celebrate(productIdParamSchema),
   deleteProduct,
 );
 router.put(
-  '/products/:productsId',
+  '/products/:productId',
   celebrate(updateProductSchema),
   updateProduct,
 );
