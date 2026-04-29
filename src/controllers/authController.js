@@ -92,6 +92,7 @@ export const refreshUserSession = async (req, res) => {
 
   res.status(200).json({
     message: 'Session refreshed',
+    token: newSession.accessToken,
   });
 };
 
